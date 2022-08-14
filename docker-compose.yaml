@@ -1,0 +1,42 @@
+## docker-compose para correr rtorrent sobre raspberry
+## by PeladoNerd https://youtu.be/pZArt1yEw_o
+
+version: "2"
+
+services:
+
+  plex:
+    image: jaymoulin/plex:1.28.0.5999
+    ports:
+      - 32400:32400
+      - 33400:33400
+    volumes:
+      - /home/kbs/plex:/root/Library
+      - /mnt/storage/downloads:/media
+    restart: always
+    network_mode: "host"
+  
+  samba:
+    image: dperson/samba:rpi
+    restart: always
+    command: '-u "pi;password" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no"'
+    stdin_open: true
+    tty: true
+    ports:
+      - 139:139
+      - 445:445
+    volumes:
+      - /usr/share/zoneinfo/America/Mexico_City:/etc/localtime
+      - /mnt/storage/media:/media
+      - /mnt/storage/downloads:/downloads
+
+  rtorrent:
+    image: pablokbs/rutorrent-armhf
+    ports:
+      - 80:80
+      - 51413:51413
+      - 6881:6881/udp
+    volumes:
+      - /home/kbs/torrents-config/rtorrent:/config/rtorrent
+      - /mnt/storage/downloads:/downloads
+    restart: always
