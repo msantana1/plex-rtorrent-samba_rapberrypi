@@ -7,9 +7,11 @@ services:
 
   plex:
     image: jaymoulin/plex:1.28.0.5999
-    ports:
-      - 32400:32400
-      - 33400:33400
+    #ports:
+      #- 32400:32400
+      #- 33400:33400
+    expose:
+      - 32400
     volumes:
       - /home/kbs/plex:/root/Library
       - /mnt/storage/downloads:/media
@@ -22,9 +24,11 @@ services:
     command: '-u "pi;password" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no"'
     stdin_open: true
     tty: true
-    ports:
-      - 139:139
-      - 445:445
+    #ports:
+      #- 139:139
+      #- 445:445
+    expose:
+      - 445
     volumes:
       - /usr/share/zoneinfo/America/Mexico_City:/etc/localtime
       - /mnt/storage/media:/media

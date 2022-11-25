@@ -1,5 +1,5 @@
-# Repositrio para instalar Plex, Samba y rtorrent en Docker containers en Raspberry PI
- Repository to run Plex, rtorrent and samba on containers on a Raspberry pi
+# Repositorio para instalar Plex, Samba y rTorrent en Docker containers en Raspberry PI
+ Repository to run Plex, rTorrent and samba on containers on a Raspberry pi
 ---
 Con este repositorio puedes correr un servidor Plex en un contenedor de Docker en una Raspberry PI usando un docker compose y su respectivo YAML file
 ## Requisitos iniciales
@@ -12,7 +12,7 @@ Agregar tu usuario (cambiar `plexuser` con tu nombre de usuario)
 ~~~
 useradd -md /home/plexuser plexuser -G sudo
 ~~~
-Corre este comando para crea el archivo `/etc/sudoers.d/user-plex` con este texto:
+Corre este comando para crear el archivo `/etc/sudoers.d/user-plex` con este texto:
 ~~~
 echo "plexuser   ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/user-plex 
 ~~~
@@ -41,15 +41,17 @@ ssh-keygen -t rsa -b 4096
 ~~~
 Da un enter para dejar por default el path y nombre del archivo
 ![Imaegn 1](images/image1.png)
+
 **NOTA:** Deberás ingresar una contraseña para la llave ssh y confirmar la passphrase
 ![Imagen 2](images/image2.png)
+
 **Crear usuario para docker**
 
 *Estos comandos se deben correr desde root*
 
 gregar tu usuario (cambiar `dockeruser` con tu nombre de usuario)
 ~~~
-useradd -md /home/dockeruser dockeruser -g docker
+groupadd docker && useradd -md /home/dockeruser dockeruser -g docker
 ~~~
 
 
@@ -95,6 +97,8 @@ ls -l /dev/disk/by-uuid/
 # y simplemente montamos el disco en el archivo /etc/fstab (pueden hacerlo por el editor que les guste o por consola)
 echo UUID="{nombre del disco o UUID que es único por cada disco}" {directorio donde queremos montarlo} (por ejemplo /mnt/storage) ntfs-3g defaults,auto 0 0 | \
      sudo tee -a /etc/fstab
+# Por ejemplo: 
+# UUID=FE8A94918A94557D3 /mnt/storage ntfs-3g defaults,auto 0 0
 # por último para que lea el archivo fstab
 mount -a (o reiniciar)
 ~~~
